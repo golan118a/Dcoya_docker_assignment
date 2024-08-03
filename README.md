@@ -4,6 +4,26 @@ This repository will hold all the neccesery files and documantation for this ass
 
 ![image](https://github.com/user-attachments/assets/6b5e75bf-f7fd-471b-9552-c2235be7ce3b)
 
+ ====== Global Variables: =======
+VM user (yontan) password: HireMe!
+MySQL Root password: HireYoni13!
+DB name: Dcoya
+app container name: app1
+sql container name: sql1
+container network name: net1
+
+(all the files have a copy at the VM /home/ folder)
+
+app scripts are at /home/ on the app container
+
+mysql credentials are saved at both containers at /etc/mysql/my.cnf
+(in the app container the host name is sql1, in the sql container its local host)
+
+mysql init file is saved at //
+
+the VM systemd startup service is saved at /etc/systemd/system/startup.service
+
+ ====== My Proccess: =======
 installed docker on VM
 
 made an SQL container from SQL image with predifined mysql root password
