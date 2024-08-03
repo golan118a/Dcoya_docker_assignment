@@ -1,0 +1,12 @@
+
+[Unit]
+Description=On boot, start Docker, container network, sql container and app container
+After=network.target
+
+[Service]
+Type=oneshot
+ExecStart=/home/startup.sh
+RemainAfterExit=true
+
+[Install]
+WantBy=multi-user.target
