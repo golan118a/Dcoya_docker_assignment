@@ -4,56 +4,49 @@ This repository will hold all the neccesery files and documantation for this ass
 
 ![image](https://github.com/user-attachments/assets/6b5e75bf-f7fd-471b-9552-c2235be7ce3b)
 
-Enter the MySQL container and into the SQL cli
-Docker exec -it <sql_container_name> mysql -uroot -p 
+installed docker on VM
 
-Run the MySQL container
-Docker run -d --name <sql_container_name>  -e TZ=UTC - p 30306:3306 -e MYSQL_ROOT_PASSWORD=<password> Ubuntu/mysql:8.0-22.04_beta
+made an SQL container from SQL image with predifined mysql root password
+made an app container from Ubuntu image
 
-Run the app container with the detach flag because of ___
-Docker run -dit --name <container_name> <image_name>
+in the sql container:
+- made a DB named Dcoya
+- using Dcoya, made a Table named users
 
--dit = 
+in tha app container:
+- installed sql client
+- changed default mysql credentials to use the mysql root password that was predefined
+- wrote 2 scripts:
+  1. from the mysql server at the sql container, using Dcoya DB, read the users table
+  2. from the mysql server at the sql container, using Dcoya DB, write user input to the users table
 
-Enter the app container (bash cli by default)
-Docker exec -it -u root <app_container_name> /bin/bash
+in order to communicate between the containers i made a simple docker network and connected the 2 containers
 
--it =
+after making sure the communication and the scripts are working i went to create the script in the VM (Docker Host) that will call the scripts in the app container
 
-From app container to MySQL server
-First install MySQL client then run the command
-Mysql -u root -p -h <mysql_container_ip> -e "<SQL commands>"
+next step was to call the proxy script from the Windows PC (VM Host) with a simple SSH,
+after installing SSH on the windows PC, using the VMBox interface i enabled port forwarding from port 22 (SSH) of the windows host to port 22 of the VM.
+because the VirtualBox is running localy on the PC, i executed the SSH command to user@local host (in this case the user is yonatan@localhost) with the user password.
 
-It is very important to mention that in order to use the MySQL client from the app1 container on the MySQL server, I first changed the my.cnf (/etc/mysql/my.cnf) file to look like this:
-[client]
-User=root
-Password=<password>
-Host=<mysql_container_ip_or_name>
+all the application, mysql server and proxy script works amazing.
 
-To enable network between the containers:
-Docker network create <network_name>
-Docker network ls
-Docker network inspect <network_name>
-Docker network connect <network_name> <container_name>
+next is to make sure everything starts up when we turn on the VM.
 
-The proxy script in the VM host works like:
-asdgadfg
+To make scripts to run on container startup everything is needed to be in the image or more specificaly the dockerfile that will build the image.
 
-To enable SSH from Win PC Host to VM we first need to configure the port forwarding from the pc to the vm: 
-Port 22 (SSH) from host to port 22 at the guest meaning the VM
+The MySQL server already has an init service built in, all we need to do is change it to make sure we have the DB and the Table.
 
+The app container needed to copy the app scripts and the mysql client credentials and ofcourse install the mysql client.
 
+The VM also has a script that will be called on startup using the systemd pid. 
+The script checks with docker the containers and the network are up and if not, start or run them.
 
-Copy files from docker to host (this case is the VM)
-sudo docker cp <container_id>:/<src_file_location> <dst_file_location>
+Last step, using the VirtualBox exporting the VM as an OVA and uploadind everything to GitHub.
 
-For the SQL container in order to initialise the table and DB all I need to do is write an init.sql file and save it in the container at /docker-entrypoint-initdb.d/
-
-Build an image from a docker file 
-docker build -f <MyDockerfile> -t <my_custom_image> .
-
--f MyDockerfile: Specifies that the Dockerfile is named MyDockerfile.
--t my_custom_image: Tags the image with the name my_custom_image.
-.: Specifies the current directory as the build context.
-
+Next challenges:
+- making the scripts in python
+- checking the user input
+- logging the calls to the app container in the VM
+- connecting the containers with SSL
+- create a cron job at the VM to call and log data_read every day
 
