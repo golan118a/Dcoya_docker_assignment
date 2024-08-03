@@ -19,7 +19,7 @@ app scripts are at /home/ on the app container
 mysql credentials are saved at both containers at /etc/mysql/my.cnf
 (in the app container the host name is sql1, in the sql container its local host)
 
-mysql init file is saved at //
+mysql init file is saved at /docker-entrypoint-initdb.d/init.sql
 
 the VM systemd startup service is saved at /etc/systemd/system/startup.service
 
