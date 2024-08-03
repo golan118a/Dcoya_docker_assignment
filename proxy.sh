@@ -4,12 +4,12 @@ CONTAINER_NAME="app1"
 WRITE_SCRIPT_PATH="/home/data_write.sh"
 READ_SCRIPT_PATH="/home/data_read.sh"
 
-#if [ $(docker inspect -f '{{.state.Running}}' $CONTAINER_NAME) = "true"]; then 
-#	echo "SQL container is running"
-#else 
-#	echo "SQL Container is not running"
-#	exit
-#fi
+if [ "$(docker ps -q -f name=sql1)" == ""  ]; then 
+        echo "SQL container is not running"
+        exit
+else 
+        echo "SQL Container is up and running"
+fi
 
 echo "Which action would you like to do? 
 [1] write 
