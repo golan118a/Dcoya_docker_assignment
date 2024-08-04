@@ -7,10 +7,15 @@ This repository will hold all the neccesery files and documantation for this ass
  ====== Global Variables: =======
  
 VM user (yontan) password: HireMe!
+
 MySQL Root password: HireYoni13!
+
 DB name: Dcoya
+
 app container name: app1
+
 sql container name: sql1
+
 container network name: net1
 
 (all the files have a copy at the VM /home/ folder)
