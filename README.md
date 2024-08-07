@@ -6,7 +6,7 @@ This repository will hold all the neccesery files and documantation for this ass
 
  ====== Global Variables: =======
  
-VM user (yontan) password: HireMe!
+VM user (yonatan) password: HireMe!
 
 MySQL Root password: HireYoni13!
 
