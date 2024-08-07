@@ -1,0 +1,19 @@
+	• Define secure connection between the MySQL and the application container using SSL certificates
+		○ Using the openSSL package, generate a certificate for each container at the Host VM
+		○ Copy the cert and the keys to the containers
+		○ Configure the mysql server to use a secure connection
+		○ Connect the sql client and the server using the cert at the app container
+	• Log all requests in a file that would persist after containers destruction
+		○ Run the app container with a persistent volume 
+		○ In the 2 scripts add a command to log the calls to a text file at the shared volume
+	• Implement the scripts in Python
+		○ Install python on the app container and the VM
+		○ Add to the docker file the command to install python
+		○ Using the "pymysql" library to connect to the MySQL server
+			§ In this case the MySQL client credentials saved in the my.cnf will not help and we will use the ENV variables defined in the dockerfile
+	• Add input validation to the scripts (in python)
+		○ Using the library "re" or "pydantic" to validate the input of name (string)
+		○ To validate the age is just to check if the input can be casted as an integer and make sure the number entered is logical (between 1 and 120)
+	• On the docker host machine, create a scheduled task that would call the “data read” script once per day and would save the results in a file that would have today’s date as its name
+		○ Write a script that will call the read_data script at the app container and write the output to a text file
+    ○ Run the script at the end of the day using a simple CRON job
